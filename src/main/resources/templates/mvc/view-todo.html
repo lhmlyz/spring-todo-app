@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Details</title>
+</head>
+<body>
+<th:block>
+    <div th:if="${details}">
+        id: <span th:text="${details.id}"></span><br>
+        Task: <span th:text="${details.task}"></span><br>
+        Context: <span th:text="${details.context}"></span><br>
+        Deadline: <span th:text="${details.deadline}"></span><br>
+    </div>
+    <div th:unless="${details}">
+        <h1>Page Not Found</h1>
+    </div>
+</th:block>
+</body>
+</html>

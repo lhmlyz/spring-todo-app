@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="@{/add}" th:object="${todo}" th:method="POST">
+
+    <table>
+
+        <tr>
+            <td>Task Name:</td>
+            <td><input type="text" th:field="*{task}"></td>
+            <td th:if="${#fields.hasErrors('task')}" th:errors="*{task}">Name Error</td>
+        </tr>
+
+        <tr>
+            <td>Context:</td>
+            <td><textarea th:field="*{context}"></textarea></td>
+            <td th:if="${#fields.hasErrors('context')}" th:errors="*{context}">Name Error</td>
+        </tr>
+
+        <tr>
+            <td>Deadline:</td>
+            <td><input type="datetime-local" th:field="*{deadline}"></td>
+            <td th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}">Name Error</td>
+        </tr>
+
+    </table>
+
+    <input type="submit" value="Add Task">
+</form>
+
+
+</body>
+</html>

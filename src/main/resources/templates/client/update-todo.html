@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Todo</title>
+</head>
+<body>
+
+<form th:action="@{/client/todo/update}" th:object="${todo}" method="post">
+    <!--    ID:-->
+    <!--    Task Name:<input th:type="text" th:name="task_name" th:value="${todo.task}"><br>-->
+    <!--    Context: <textarea th:type="text" th:name="context" th:text="${todo.context}"></textarea><br>-->
+    <!--    Deadline:<input th:type="datetime-local" th:name="deadline" th:value="${todo.deadline}"><br>-->
+
+
+    <table>
+        <input th:type="hidden" th:name="id" th:value="${todo.id}"><br>
+        <tr>
+            <td>Task Name:</td>
+            <td><input type="text" th:field="*{task}" th:value="${todo.task}"></td>
+            <td th:if="${#fields.hasErrors('task')}" th:errors="*{task}">Name Error</td>
+        </tr>
+
+        <tr>
+            <td>Context:</td>
+            <td><textarea th:field="*{context}" th:text="${todo.context}"></textarea></td>
+            <td th:if="${#fields.hasErrors('context')}" th:errors="*{context}">Name Error</td>
+        </tr>
+
+        <tr>
+            <td>Deadline:</td>
+            <td><input type="datetime-local" th:value="${todo.deadline}" th:field="*{deadline}"></td>
+            <td th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}">Name Error</td>
+        </tr>
+
+    </table>
+
+    <input type="submit" value="Update">
+
+</form>
+
+
+</body>
+</html>
