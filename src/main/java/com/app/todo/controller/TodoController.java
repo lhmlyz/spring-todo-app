@@ -1,17 +1,23 @@
 package com.app.todo.controller;
 
 import com.app.todo.model.Todo;
-import com.app.todo.repository.TodoRepository;
+import com.app.todo.repository.jdbc.TodoRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/")
@@ -19,6 +25,7 @@ public class TodoController {
 
     @Resource
     private TodoRepository repository;
+
 
 //    @Autowired
 //    TodoValidator validator;
@@ -74,6 +81,7 @@ public class TodoController {
         todo.setTask(task_name);
         todo.setContext(context);
         todo.setDeadline(LocalDateTime.parse(deadline, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+
         repository.addNewTodo(todo);
         System.out.println("todo added" + todo);
         return "redirect:/";
@@ -118,5 +126,6 @@ public class TodoController {
         repository.deleteTodo(id);
         return "redirect:/";
     }
+
 
 }

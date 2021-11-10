@@ -1,4 +1,4 @@
-package com.app.todo.repository;
+package com.app.todo.repository.jdbc;
 
 import com.app.todo.model.Todo;
 // import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,9 +10,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,14 +62,14 @@ public class TodoRepositoryImpl implements TodoRepository {
     @Override
     public Todo addNewTodo(Todo todo) {
 //        String sql = "insert into todo_data(task_name, task_context, create_date, deadline) values (?, ?, ?, ?)";
-        String sql = "insert into todo_data(task_name, task_context, create_date, deadline)" + " values (:task, :context, :create_date, :deadline)";
+        String sql = "insert into todo_data(task_name, task_context, create_date, deadline)" +
+                " values (:task, :context, :create_date, :deadline)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         MapSqlParameterSource params = new MapSqlParameterSource("task", todo.getTask())
                 .addValue("context", todo.getContext())
                 .addValue("create_date", LocalDateTime.now(), Types.TIMESTAMP)
                 .addValue("deadline", todo.getDeadline(), Types.TIMESTAMP);
-
         int count = jdbcTemplate.update(sql, params, keyHolder, new String[]{"id"});
 
 
