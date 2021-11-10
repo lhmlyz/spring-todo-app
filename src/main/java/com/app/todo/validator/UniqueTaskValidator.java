@@ -1,7 +1,7 @@
 package com.app.todo.validator;
 
 import com.app.todo.annotations.UniqueTask;
-import com.app.todo.repository.TodoRepository;
+import com.app.todo.repository.jdbc.TodoRepository;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;

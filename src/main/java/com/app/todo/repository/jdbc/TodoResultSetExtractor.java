@@ -1,4 +1,4 @@
-package com.app.todo.repository;
+package com.app.todo.repository.jdbc;
 
 import com.app.todo.model.Todo;
 import org.springframework.dao.DataAccessException;
@@ -24,7 +24,6 @@ public class TodoResultSetExtractor implements ResultSetExtractor<List<Todo>> {
             todo.setContext(rs.getString("task_context"));
             todo.setCreateDate(rs.getObject("create_date", LocalDateTime.class));
             todo.setDeadline(rs.getObject("deadline", LocalDateTime.class));
-
             todoList.add(todo);
         }
         return todoList;

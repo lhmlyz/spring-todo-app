@@ -1,4 +1,4 @@
-package com.app.todo.repository;
+package com.app.todo.repository.jdbc;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,6 @@ import com.app.todo.model.Todo;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springframework.stereotype.Repository;
 
 // @Repository
 public class TodoRepositoryImplPg implements TodoRepository {

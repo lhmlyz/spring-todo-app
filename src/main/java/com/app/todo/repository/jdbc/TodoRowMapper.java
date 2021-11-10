@@ -1,4 +1,4 @@
-package com.app.todo.repository;
+package com.app.todo.repository.jdbc;
 
 import com.app.todo.model.Todo;
 import org.springframework.jdbc.core.RowMapper;

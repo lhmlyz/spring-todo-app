@@ -2,23 +2,33 @@ package com.app.todo.rest.api;
 
 
 import com.app.todo.model.Todo;
-import com.app.todo.repository.TodoRepository;
+import com.app.todo.repository.jdbc.TodoRepository;
+import com.app.todo.webconfig.TodoConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = {"/api/todo", "/api/todo/"})
 public class TodoRestController {
 
-    @Resource
+    @Qualifier("todoRepositoryImpl")
+    @Autowired
     private TodoRepository repository;
+    private TodoConfig config;
 
 
     @GetMapping()
@@ -76,6 +86,23 @@ public class TodoRestController {
             return todoOptional.get();
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo not available");
+        }
+    }
+
+    @PostMapping("/{id}/task")
+    public void uploadTask(@PathVariable(name = "id") long id, @RequestParam(name = "photo") MultipartFile photo) {
+        Optional<Todo> optionalTodo = repository.getTodoById(id);
+        if (optionalTodo.isPresent()) {
+            Todo todo = optionalTodo.get();
+            String newName = "C:\\Users\\ilham\\IdeaProjects\\todo\\uploads\\" + UUID.randomUUID().toString() + photo.getContentType().replace("/", ".");
+
+            try {
+                Files.copy(photo.getInputStream(), Paths.get(newName), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            repository.updateTodo(todo);
+            System.out.println(newName);
         }
 
     }

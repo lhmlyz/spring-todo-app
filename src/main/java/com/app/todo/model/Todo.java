@@ -37,6 +37,7 @@ public class Todo {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @FutureOrPresent
     @JsonProperty("deadline")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime deadline;
+
 }

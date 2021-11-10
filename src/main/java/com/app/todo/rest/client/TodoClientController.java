@@ -1,7 +1,6 @@
 package com.app.todo.rest.client;
 
 import com.app.todo.model.Todo;
-import com.app.todo.repository.TodoRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
