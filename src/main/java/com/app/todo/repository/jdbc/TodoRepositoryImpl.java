@@ -21,8 +21,8 @@ public class TodoRepositoryImpl implements TodoRepository {
 //    private JdbcTemplate jdbcTemplate;
 //    private TodoResultSetExtractor resultSetExtractor;
 
-    private TodoRowMapper rowMapper;
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private final TodoRowMapper rowMapper;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
 
     public TodoRepositoryImpl(NamedParameterJdbcTemplate jdbcTemplate, TodoRowMapper rowMapper) {
