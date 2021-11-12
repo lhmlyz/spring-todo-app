@@ -1,15 +1,18 @@
 package com.app.todo.rest.api;
 
+import com.app.todo.dto.PersonDto;
+import com.app.todo.dto.PersonMapper;
 import com.app.todo.entity.Person;
 import com.app.todo.repository.jpa.PersonRepository;
-import org.checkerframework.checker.nullness.Opt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +20,7 @@ import java.util.Optional;
 @RequestMapping("/person")
 public class PersonRestController {
 
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
     @Autowired
     public PersonRestController(PersonRepository personRepository) {
@@ -25,10 +28,12 @@ public class PersonRestController {
     }
 
     @GetMapping
-    public List<Person> personList() {
-        List<Person> personList = new ArrayList<>();
-        personRepository.findAll().forEach(personList::add);
-        return personList;
+    public List<PersonDto> personList() {
+        List<PersonDto> personDtoList = new ArrayList<>();
+        personRepository.findAll().forEach(person -> {
+            personDtoList.add(PersonMapper.INSTANCE.personToDto(person));
+        });
+        return personDtoList;
     }
 
     @GetMapping("/{id}")
@@ -41,20 +46,41 @@ public class PersonRestController {
         }
     }
 
+    @GetMapping("/page")
+    public Page<PersonDto> personListAll(
+            @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(name = "sortColumn", defaultValue = "id") String sortColumn,
+            @RequestParam(name = "sortDirection", defaultValue = "asc") String sortDirection
+
+    ) {
+        PageRequest pageRequest = PageRequest.of(
+                pageNumber,
+                pageSize,
+                Sort.Direction.fromString(sortDirection),
+                sortColumn);
+        return personRepository.findAll(pageRequest).map(PersonMapper.INSTANCE::personToDto);
+
+    }
+
     @PostMapping("/")
-    public Person addPerson(@RequestBody Person person) {
-        return personRepository.save(person);
+    public PersonDto addPerson(@RequestBody PersonDto personDto) {
+        Person person = PersonMapper.INSTANCE.dtoToPerson(personDto);
+        personRepository.save(person);
+        return PersonMapper.INSTANCE.personToDto(person);
     }
 
     @PostMapping("/bulk")
     public List<Person> addPerson(@RequestBody List<Person> personList) {
-        return (List<Person>)personRepository.saveAll(personList);
+        return (List<Person>) personRepository.saveAll(personList);
     }
-    
+
     @PutMapping("/{id}")
-    public Person updatePerson(@PathVariable(name = "id") Long id, @RequestBody Person person) {
+    public PersonDto updatePerson(@PathVariable(name = "id") Long id, @RequestBody PersonDto personDto) {
+        Person person = PersonMapper.INSTANCE.dtoToPerson(personDto);
         person.setId(id);
-        return personRepository.save(person);
+        personRepository.save(person);
+        return PersonMapper.INSTANCE.personToDto(person);
     }
 
     @DeleteMapping("/{id}")

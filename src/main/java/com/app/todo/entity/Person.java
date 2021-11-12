@@ -1,12 +1,15 @@
 package com.app.todo.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
 @Entity
 @Table(name = "person")
+@Getter
+@Setter
 public class Person {
 
     @Id
