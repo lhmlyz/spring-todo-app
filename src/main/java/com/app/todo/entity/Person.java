@@ -25,4 +25,7 @@ public class Person {
     @Column(name="email", length = 512)
     private String email;
 
+    @OneToOne(mappedBy = "person")
+    private Address address;
+
 }
