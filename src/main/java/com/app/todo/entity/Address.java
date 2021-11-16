@@ -15,15 +15,21 @@ import javax.persistence.*;
 public class Address {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq")
+    @SequenceGenerator(
+            name = "address_seq",
+            allocationSize = 1
+    )
     private Long id;
+
+
 
     private String country;
     private String region;
     private String city;
     private String info;
 
-    @OneToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "person_id")
     private Person person;
 }

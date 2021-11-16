@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,12 +27,10 @@ import java.util.Optional;
 public class PersonRestController {
 
     private final PersonRepository personRepository;
-    private final AddressRepository addressRepository;
 
     @Autowired
-    public PersonRestController(PersonRepository personRepository, AddressRepository addressRepository) {
+    public PersonRestController(PersonRepository personRepository ) {
         this.personRepository = personRepository;
-        this.addressRepository = addressRepository;
     }
 
     @GetMapping
@@ -73,7 +72,8 @@ public class PersonRestController {
     @PostMapping("/")
     public PersonDto addPerson(@RequestBody PersonDto personDto) {
         Person person = PersonMapper.INSTANCE.dtoToPerson(personDto);
-//        Person savedPerson = personRepository.save(person);
+        person.getAddress().setPerson(person);
+        personRepository.save(person);
         return PersonMapper.INSTANCE.personToDto(person);
     }
 
