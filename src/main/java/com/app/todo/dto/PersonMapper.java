@@ -13,10 +13,10 @@ public interface PersonMapper {
 
     Person dtoToPerson(PersonDto personDto);
 
-    @Mapping(source = "id", target = "person_id")
-    @Mapping(source = "name", target = "person_name")
-    @Mapping(source = "surname", target = "person_surname")
-    @Mapping(source = "email", target = "person_email")
+//    @Mapping(source = "id", target = "person_id")
+//    @Mapping(source = "name", target = "person_name")
+//    @Mapping(source = "surname", target = "person_surname")
+//    @Mapping(source = "email", target = "person_email")
     PersonDto personToDto(Person person);
 
 

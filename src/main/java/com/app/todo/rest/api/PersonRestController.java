@@ -1,9 +1,13 @@
 package com.app.todo.rest.api;
 
+import com.app.todo.dto.AddressMapper;
 import com.app.todo.dto.PersonDto;
 import com.app.todo.dto.PersonMapper;
+import com.app.todo.entity.Address;
 import com.app.todo.entity.Person;
+import com.app.todo.repository.jpa.AddressRepository;
 import com.app.todo.repository.jpa.PersonRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,15 +20,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/person")
 public class PersonRestController {
 
     private final PersonRepository personRepository;
+    private final AddressRepository addressRepository;
 
     @Autowired
-    public PersonRestController(PersonRepository personRepository) {
+    public PersonRestController(PersonRepository personRepository, AddressRepository addressRepository) {
         this.personRepository = personRepository;
+        this.addressRepository = addressRepository;
     }
 
     @GetMapping
@@ -66,13 +73,8 @@ public class PersonRestController {
     @PostMapping("/")
     public PersonDto addPerson(@RequestBody PersonDto personDto) {
         Person person = PersonMapper.INSTANCE.dtoToPerson(personDto);
-        personRepository.save(person);
+//        Person savedPerson = personRepository.save(person);
         return PersonMapper.INSTANCE.personToDto(person);
-    }
-
-    @PostMapping("/bulk")
-    public List<Person> addPerson(@RequestBody List<Person> personList) {
-        return (List<Person>) personRepository.saveAll(personList);
     }
 
     @PutMapping("/{id}")
