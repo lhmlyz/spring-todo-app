@@ -1,5 +1,7 @@
 package com.app.todo.rest.api;
 
+import com.app.todo.dto.StudentDto;
+import com.app.todo.dto.StudentMapper;
 import com.app.todo.entity.Student;
 import com.app.todo.repository.jpa.ContactRepo;
 import com.app.todo.repository.jpa.StudentRepo;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("student")
+@RequestMapping("/student")
 public class StudentRestController {
 
     private final StudentRepo studentRepo;
@@ -33,8 +35,10 @@ public class StudentRestController {
     }
 
     @PostMapping
-    public Student saveStudents(@RequestBody Student student) {
-        return studentRepo.save(student);
+    public StudentDto saveStudents(@RequestBody StudentDto studentDto) {
+        Student student = StudentMapper.INSTANCE.dtoToStudent(studentDto);
+        studentRepo.save(student);
+        return StudentMapper.INSTANCE.studentToDto(student);
     }
 
 

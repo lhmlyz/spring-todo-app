@@ -26,7 +26,7 @@ public class ContactRestController {
     }
 
     @GetMapping("{student_id}/contacts")
-    public List<Contact> getStudentContacts(@PathVariable(name = "student_id ") Long id) {
+    public List<Contact> getStudentContacts(@PathVariable(name = "student_id") Long id) {
         return contactRepo.findContactsByStudentId(id);
     }
 
